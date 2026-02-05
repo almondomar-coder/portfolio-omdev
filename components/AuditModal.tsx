@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI } from "@google/genai";
+import { supabase } from '../lib/supabase';
 
 interface AuditModalProps {
   isOpen: boolean;
@@ -66,15 +66,27 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     });
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // 1. Save request to Supabase
+      const { error: dbError } = await supabase
+        .from('audit_requests')
+        .insert([{ email, website_url: url }]);
+
+      if (dbError) {
+        console.error('Supabase error:', dbError);
+        addLog('Warning: Could not save request to database.');
+      } else {
+        addLog('Audit request securely saved.');
+      }
+
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.GEMINI_API_KEY }); // Use import.meta.env for Vite
 
       // Perform actual AI analysis
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-2.0-flash-exp", // Updated model
         contents: `Analyze this website URL: ${url}. Provide 3 professional, high-end, and concise recommendations for improving their web presence, SEO, or design. Keep it professional and encouraging. Format as a short markdown list.`,
         config: {
           systemInstruction: "You are Omar, a world-class senior web developer and SEO specialist at OMDEV. You are providing an initial 'snag list' for a potential client. Be honest, premium, and insightful.",
-          tools: [{ googleSearch: {} }]
+          // tools: [{ googleSearch: {} }] // Removed for now as regular model is sufficient for demo
         }
       });
 
@@ -82,8 +94,10 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
       addLog('Synthesizing recommendations...');
       setProgress(90);
 
+      const responseText = response.text || "";
+
       setTimeout(() => {
-        setAiObservations(response.text || "Unable to generate live observations, but your manual report is being prepared.");
+        setAiObservations(responseText || "Unable to generate live observations, but your manual report is being prepared.");
         setProgress(100);
         setStep('results');
       }, 4000);
@@ -110,34 +124,34 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300"
         onClick={onClose}
       ></div>
 
-      <div className="relative glass-card w-full max-w-2xl overflow-hidden transition-all duration-300 transform scale-100 opacity-100">
+      <div className="relative glass-card bg-black/40 w-full max-w-2xl overflow-hidden transition-all duration-300 transform scale-100 opacity-100 border border-white/20 shadow-2xl">
         <button
           onClick={onClose}
-          className="absolute top-8 right-8 text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors z-10"
+          className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-10"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="p-10 md:p-14 bg-white/50">
+        <div className="p-10 md:p-14">
           {step === 'form' && (
             <>
-              <h2 className="text-3xl font-bold text-[var(--color-primary)] mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4">
                 Get Your Free Audit
               </h2>
-              <p className="text-[var(--color-secondary)] mb-8 leading-relaxed">
+              <p className="text-white/70 mb-8 leading-relaxed text-lg">
                 Enter your details and our AI-assisted engine will perform an initial scan of your site's performance and SEO.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-[var(--color-secondary)] mb-2 font-medium">
+                    <label className="block text-xs uppercase tracking-widest text-white/60 mb-2 font-medium">
                       Website URL
                     </label>
                     <input
@@ -146,11 +160,11 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
                       placeholder="https://mysite.com"
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
-                      className="w-full px-5 py-4 bg-white/80 border border-[var(--color-secondary)]/20 rounded-2xl focus:outline-none focus:border-[var(--color-primary)] transition-colors text-[var(--color-primary)]"
+                      className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-[var(--color-cta)] transition-all text-white placeholder-white/20"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-widest text-[var(--color-secondary)] mb-2 font-medium">
+                    <label className="block text-xs uppercase tracking-widest text-white/60 mb-2 font-medium">
                       Your Email
                     </label>
                     <input
@@ -159,7 +173,7 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
                       placeholder="you@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-5 py-4 bg-white/80 border border-[var(--color-secondary)]/20 rounded-2xl focus:outline-none focus:border-[var(--color-primary)] transition-colors text-[var(--color-primary)]"
+                      className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-[var(--color-cta)] transition-all text-white placeholder-white/20"
                     />
                   </div>
                 </div>
@@ -167,7 +181,7 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-primary w-full py-5 text-lg"
+                  className="btn-primary w-full py-5 text-lg font-bold tracking-wide"
                 >
                   Run Scan
                 </button>
@@ -178,20 +192,20 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
           {step === 'processing' && (
             <div className="py-6">
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-[var(--color-primary)]">
+                <h2 className="text-2xl font-bold text-white">
                   Performing Snag-List Scan...
                 </h2>
-                <div className="text-xl font-mono text-[var(--color-primary)]">{progress}%</div>
+                <div className="text-xl font-mono text-[var(--color-cta)]">{progress}%</div>
               </div>
 
-              <div className="w-full bg-[var(--color-secondary)]/10 h-1.5 rounded-full mb-8 overflow-hidden">
+              <div className="w-full bg-white/10 h-1.5 rounded-full mb-8 overflow-hidden">
                 <div
-                  className="bg-[var(--color-cta)] h-full transition-all duration-500 ease-out rounded-full"
+                  className="bg-[var(--color-cta)] h-full transition-all duration-500 ease-out rounded-full shadow-[0_0_15px_rgba(37,99,235,0.6)]"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
 
-              <div className="bg-[var(--color-primary)] text-white/90 p-6 rounded-2xl font-mono text-xs leading-loose h-48 overflow-y-auto shadow-inner">
+              <div className="bg-black/30 text-emerald-400 p-6 rounded-2xl font-mono text-xs leading-loose h-48 overflow-y-auto border border-white/5">
                 {logs.map((log, i) => (
                   <div key={i} className="mb-1 opacity-90">{log}</div>
                 ))}
@@ -203,30 +217,30 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
           {step === 'results' && (
             <div className="space-y-8">
               <div className="flex items-center space-x-4 mb-2">
-                <div className="w-10 h-10 bg-[var(--color-cta)]/10 rounded-full flex items-center justify-center text-[var(--color-cta)]">
+                <div className="w-10 h-10 bg-[var(--color-cta)]/20 rounded-full flex items-center justify-center text-[var(--color-cta)] border border-[var(--color-cta)]/30">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-[var(--color-primary)]">
+                <h2 className="text-2xl font-bold text-white">
                   Initial AI Observations
                 </h2>
               </div>
 
-              <div className="bg-white/80 border border-[var(--color-secondary)]/10 p-8 rounded-3xl shadow-sm italic text-[var(--color-secondary)] leading-relaxed whitespace-pre-line">
+              <div className="bg-white/5 border border-white/10 p-8 rounded-3xl italic text-white/80 leading-relaxed whitespace-pre-line">
                 {aiObservations}
               </div>
 
-              <div className="p-6 bg-[var(--color-cta)]/5 rounded-2xl border border-[var(--color-cta)]/10">
-                <p className="text-sm text-[var(--color-primary)] font-medium mb-1">What's next?</p>
-                <p className="text-sm text-[var(--color-secondary)]">
+              <div className="p-6 bg-[var(--color-cta)]/10 rounded-2xl border border-[var(--color-cta)]/20">
+                <p className="text-sm text-[var(--color-cta)] font-bold mb-1">What's next?</p>
+                <p className="text-sm text-white/70">
                   I'll take these initial thoughts and create a full video walkthrough for you. Expect it in your inbox within 24 hours.
                 </p>
               </div>
 
               <button
                 onClick={() => setStep('success')}
-                className="btn-primary w-full py-4"
+                className="btn-primary w-full py-4 font-bold"
               >
                 Done, Thanks Omar
               </button>
@@ -235,22 +249,22 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
           {step === 'success' && (
             <div className="text-center py-10">
-              <div className="w-20 h-20 bg-[var(--color-cta)]/10 rounded-full flex items-center justify-center mx-auto mb-8 text-[var(--color-cta)]">
+              <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8 text-green-400 border border-green-500/30">
                 <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
 
-              <h2 className="text-3xl font-bold text-[var(--color-primary)] mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4">
                 You're all set.
               </h2>
-              <p className="text-[var(--color-secondary)] leading-relaxed mb-10">
-                The audit request for <span className="text-[var(--color-primary)] font-medium">{url}</span> is safely in my queue. I'll reach out soon.
+              <p className="text-white/70 leading-relaxed mb-10">
+                The audit request for <span className="text-white font-medium border-b border-white/20 pb-0.5">{url}</span> is safely in my queue. I'll reach out soon.
               </p>
 
               <button
                 onClick={onClose}
-                className="px-12 py-4 border border-[var(--color-secondary)] text-[var(--color-primary)] rounded-full font-medium hover:bg-[var(--color-secondary)]/10 transition-all"
+                className="px-12 py-4 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 transition-all"
               >
                 Back to Site
               </button>

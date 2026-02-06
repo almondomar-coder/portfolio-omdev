@@ -13,7 +13,7 @@ const reasons = [
 
 const WhyChooseMe: React.FC = () => {
   return (
-    <section className="py-24 md:py-40 px-6 overflow-hidden relative container mx-auto">
+    <section id="why" className="py-24 md:py-40 px-6 overflow-hidden relative container mx-auto">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
         <div>
           <Reveal>

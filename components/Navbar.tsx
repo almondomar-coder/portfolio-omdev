@@ -19,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenAudit }) => {
   }, []);
 
   const navLinks = [
-    { name: 'About', href: '#about' },
+    { name: 'Why', href: '#why' },
     { name: 'Services', href: '#services' },
     { name: 'Work', href: '#work' },
   ];

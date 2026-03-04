@@ -19,8 +19,8 @@ const ScrollProgress: React.FC = () => {
     return (
         <div className="fixed top-0 left-0 w-full h-1 z-[100]">
             <div
-                className="h-full bg-[var(--color-cta)] transition-all duration-150 ease-out shadow-[0_0_10px_var(--color-cta)]"
-                style={{ width: `${scrollProgress * 100}%` }}
+                className="h-full w-full origin-left bg-[var(--color-cta)] shadow-[0_0_10px_var(--color-cta)]"
+                style={{ transform: `scaleX(${scrollProgress})` }}
             />
         </div>
     );

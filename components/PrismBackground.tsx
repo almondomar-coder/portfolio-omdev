@@ -44,7 +44,7 @@ const PrismBackground: React.FC = () => {
 
       #define PI  3.14159265359
       #define TAU 6.28318530718
-      #define MAX_STEPS 48
+      #define MAX_STEPS 36
       #define MAX_DIST  50.0
       #define SURF_DIST 0.002
 
@@ -269,9 +269,9 @@ const PrismBackground: React.FC = () => {
         const program = createProgram(gl, vertexShader, fragmentShader);
         if (!program) return;
 
-        const uTime       = gl.getUniformLocation(program, 'uTime');
+        const uTime = gl.getUniformLocation(program, 'uTime');
         const uResolution = gl.getUniformLocation(program, 'uResolution');
-        const uMouse      = gl.getUniformLocation(program, 'uMouse');
+        const uMouse = gl.getUniformLocation(program, 'uMouse');
         const positionLocation = gl.getAttribLocation(program, 'position');
 
         const positions = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
@@ -279,14 +279,14 @@ const PrismBackground: React.FC = () => {
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-        // ── Resize: use ResizeObserver + limit to 1× DPR (no Retina overdraw) ──
-        const DPR = Math.min(window.devicePixelRatio || 1, 1.5); // cap at 1.5× to avoid 4× fill on HiDPI
+        // cap at 1.0x to avoid expensive fill rate on HiDPI displays
+        const DPR = Math.min(window.devicePixelRatio || 1, 1.0);
 
         const resizeCanvas = () => {
-            const w = Math.floor(canvas.clientWidth  * DPR);
+            const w = Math.floor(canvas.clientWidth * DPR);
             const h = Math.floor(canvas.clientHeight * DPR);
             if (canvas.width !== w || canvas.height !== h) {
-                canvas.width  = w;
+                canvas.width = w;
                 canvas.height = h;
                 gl.viewport(0, 0, w, h);
             }

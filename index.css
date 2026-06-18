@@ -13,13 +13,13 @@
 }
 
 @layer components {
-  /* Glassmorphism Utilities - Refined for "Pro Max" */
+  /* Glassmorphism Utilities */
   .glass {
     @apply bg-white/5 backdrop-blur-md border-b border-white/10;
   }
 
   .glass-card {
-    @apply bg-surface/50 backdrop-blur-xl border border-white/10 shadow-lg rounded-2xl transition-all duration-300;
+    @apply bg-surface/50 backdrop-blur-lg border border-white/10 shadow-lg rounded-2xl transition-all duration-300;
   }
 
   .glass-card:hover {
@@ -32,15 +32,26 @@
   }
 }
 
+/* On phones, backdrop-blur is the main scroll-jank source — cap it low. */
+@media (max-width: 768px) {
+  .glass,
+  .glass-card {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-background;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-zinc-700 rounded-full hover:bg-zinc-600;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { @apply bg-background; }
+::-webkit-scrollbar-thumb { @apply bg-zinc-700 rounded-full hover:bg-zinc-600; }

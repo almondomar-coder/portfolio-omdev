@@ -48,14 +48,14 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
   const runAudit = async () => {
     setIsSubmitting(true);
     setStep('processing');
-    setLogs(['Initiating OMDEV Core Scan...']);
+    setLogs(['Initiating OmDev AI-Visibility Scan...']);
 
     // Simulate initial logs for "feel"
     const mockSteps = [
       { msg: 'Connecting to headless browser instance...', delay: 800, p: 10 },
       { msg: 'Analyzing DOM structure...', delay: 1500, p: 25 },
-      { msg: 'Detecting SEO metadata...', delay: 2200, p: 40 },
-      { msg: 'Checking Core Web Vitals...', delay: 3000, p: 60 },
+      { msg: 'Checking structured data & schema...', delay: 2200, p: 40 },
+      { msg: 'Testing AI engine readability & citations...', delay: 3000, p: 60 },
     ];
 
     mockSteps.forEach(s => {
@@ -83,9 +83,9 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
       // Perform actual AI analysis
       const response = await ai.models.generateContent({
         model: "gemini-2.0-flash-exp", // Updated model
-        contents: `Analyze this website URL: ${url}. Provide 3 professional, high-end, and concise recommendations for improving their web presence, SEO, or design. Keep it professional and encouraging. Format as a short markdown list.`,
+        contents: `Analyse this website URL: ${url}. Assess how visible this business is likely to be in AI search engines (ChatGPT, Perplexity, Google AI Overviews) and traditional search. Provide 3 concise, high-end recommendations to improve their AI visibility and GEO (Generative Engine Optimisation) — for example structured data, content clarity, trust signals, or technical SEO. Keep it professional and encouraging. Format as a short markdown list.`,
         config: {
-          systemInstruction: "You are Omar, a world-class senior web developer and SEO specialist at OMDEV. You are providing an initial 'snag list' for a potential client. Be honest, premium, and insightful.",
+          systemInstruction: "You are Omar, an AI Search & GEO (Generative Engine Optimisation) specialist at OmDev. You help businesses get cited by ChatGPT, Perplexity and Google AI Overviews, alongside traditional SEO. You are providing an initial 'snag list' for a potential client. Be honest, premium, and insightful.",
           // tools: [{ googleSearch: {} }] // Removed for now as regular model is sufficient for demo
         }
       });
@@ -142,10 +142,10 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
           {step === 'form' && (
             <>
               <h2 className="text-3xl font-bold text-white mb-4">
-                Get Your Free Audit
+                Get Your Free AI-Visibility Audit
               </h2>
               <p className="text-white/70 mb-8 leading-relaxed text-lg">
-                Enter your details and our AI-assisted engine will perform an initial scan of your site's performance and SEO.
+                Enter your details and I'll run an initial scan of how visible your site is across AI search engines and traditional search.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -193,7 +193,7 @@ const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
             <div className="py-6">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-white">
-                  Performing Snag-List Scan...
+                  Scanning Your AI Visibility...
                 </h2>
                 <div className="text-xl font-mono text-[var(--color-cta)]">{progress}%</div>
               </div>

@@ -3,9 +3,14 @@ import { Star } from 'lucide-react';
 
 const reviews = [
   {
+    name: "Plum Pilates",
+    tagline: "Pilates Studio · +50% visibility",
+    quote: "Omar grew our visibility by 50%. When people search for pilates near us — including through AI — we actually show up now. New enquiries followed."
+  },
+  {
     name: "Peckham Soul",
     tagline: "Record Shop",
-    quote: "OMDEV helped us rank locally and redesigned our site. We’ve seen a clear increase in foot traffic and online interest."
+    quote: "OmDev helped us rank locally and redesigned our site. We’ve seen a clear increase in foot traffic and online interest."
   },
   {
     name: "Soul",
@@ -19,24 +24,24 @@ const Testimonials: React.FC = () => {
     <section className="py-24 md:py-40 px-6 container mx-auto">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-bold text-white text-center mb-20 tracking-tight">
-          Trusted by Local Brands
+          Trusted by local brands
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-3 gap-8">
           {reviews.map((review, index) => (
-            <div key={index} className="p-12 glass-card flex flex-col justify-between hover:bg-white/5 transition-colors duration-300">
+            <div key={index} className="p-10 glass-card flex flex-col justify-between hover:bg-white/5 transition-colors duration-300">
               <div>
                 <div className="flex mb-8 gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 text-cta fill-cta" />
                   ))}
                 </div>
-                <p className="text-2xl font-medium text-white italic leading-relaxed mb-8">
+                <p className="text-lg font-medium text-white italic leading-relaxed mb-8">
                   “{review.quote}”
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-700 to-black flex items-center justify-center font-bold text-white">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-zinc-700 to-black flex items-center justify-center font-bold text-white shrink-0">
                   {review.name.charAt(0)}
                 </div>
                 <div>

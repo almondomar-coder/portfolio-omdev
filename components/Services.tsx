@@ -1,27 +1,27 @@
 import React from 'react';
-import { Layout, TrendingUp, Share2, Wrench } from 'lucide-react';
+import { Bot, Search, FileCode2, BarChart3 } from 'lucide-react';
 import { Reveal } from './Reveal';
 
 const services = [
   {
-    title: "Web Design & Development",
-    description: "Modern, fast, and mobile-friendly websites built with the latest technology.",
-    icon: <Layout className="w-6 h-6" />
+    title: "Generative Engine Optimisation (GEO)",
+    description: "Get cited by ChatGPT, Perplexity and Google AI Overviews when your customers ask for a recommendation.",
+    icon: <Bot className="w-6 h-6" />
   },
   {
-    title: "SEO Optimisation",
-    description: "Rank higher on Google and get found by the customers who are looking for you.",
-    icon: <TrendingUp className="w-6 h-6" />
+    title: "Traditional & Local SEO",
+    description: "Win classic Google rankings and the local map pack — the foundation AI engines also draw on.",
+    icon: <Search className="w-6 h-6" />
   },
   {
-    title: "Social Media Setup",
-    description: "Consistent branding and basic setup to support your long-term growth.",
-    icon: <Share2 className="w-6 h-6" />
+    title: "Structured Data & Schema",
+    description: "Machine-readable markup so AI engines can understand, trust and quote your business accurately.",
+    icon: <FileCode2 className="w-6 h-6" />
   },
   {
-    title: "Website Maintenance",
-    description: "Ongoing technical support and updates so you can focus on your business.",
-    icon: <Wrench className="w-6 h-6" />
+    title: "AI-Visibility Reporting",
+    description: "See where you appear across AI answers and search, and track what each month of work moves.",
+    icon: <BarChart3 className="w-6 h-6" />
   }
 ];
 
@@ -32,12 +32,12 @@ const Services: React.FC = () => {
         <div className="mb-20">
           <Reveal>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-              Comprehensive Web Solutions
+              SEO and GEO, working as one
             </h2>
           </Reveal>
           <Reveal delay={0.4}>
             <p className="text-lg text-secondary max-w-xl border-l-2 border-cta pl-6">
-              Everything you need to establish a premium online presence and convert visitors into loyal customers.
+              Everything needed to be found, trusted and cited — across AI answer engines and traditional search.
             </p>
           </Reveal>
         </div>

@@ -7,15 +7,18 @@ interface SEOProps {
     name?: string;
     type?: string;
     canonical?: string;
+    jsonLd?: object | object[];
 }
 
 const SEO: React.FC<SEOProps> = ({
-    title = 'Custom Web Development & SEO Services | OmDev',
-    description = 'OmDev provides high-performance web solutions and SEO strategies to scale your business. Get a beast-mode website today.',
+    title = 'AI Search & GEO Specialist London | SEO + Generative Engine Optimisation | OmDev',
+    description = 'OmDev gets your business cited by ChatGPT, Perplexity & Google AI — plus traditional SEO. AI-visibility audits & GEO for London businesses.',
     name = 'OmDev',
     type = 'website',
     canonical = 'https://omdev.xyz/',
+    jsonLd,
 }) => {
+    const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
     return (
         <Helmet>
             {/* Primary SEO */}
@@ -36,6 +39,13 @@ const SEO: React.FC<SEOProps> = ({
             <meta name='twitter:creator' content={name} />
             <meta name='twitter:title' content={title} />
             <meta name='twitter:description' content={description} />
+
+            {/* Structured data for AI engines & search */}
+            {blocks.map((block, i) => (
+                <script key={i} type='application/ld+json'>
+                    {JSON.stringify(block)}
+                </script>
+            ))}
         </Helmet>
     );
 };

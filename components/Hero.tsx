@@ -1,5 +1,4 @@
 import React from 'react';
-import PrismBackground from './PrismBackground';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAudit } from '../context/AuditContext';
@@ -21,11 +20,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-32 pb-20">
-      <div className="absolute inset-0 z-0">
-        <PrismBackground />
-      </div>
-
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
       <motion.div
         className="relative z-10 max-w-5xl mx-auto text-center px-6"
         variants={containerVariants}

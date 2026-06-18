@@ -35,7 +35,7 @@ const WhyChooseMe: React.FC = () => {
 
         <div className="relative">
           <Reveal delay={0.3}>
-            <div className="glass-card p-12 rounded-3xl text-white relative z-10 backdrop-blur-3xl border border-white/10 shadow-2xl">
+            <div className="glass-card p-12 rounded-3xl text-white relative z-10 backdrop-blur-xl border border-white/10 shadow-2xl">
               <h3 className="text-2xl font-bold mb-6">Ahead of the curve, not behind it.</h3>
               <p className="text-lg leading-relaxed mb-8 text-secondary">
                 Most agencies are still selling 2015 SEO. I work where your customers actually are now &mdash; inside the AI answer &mdash; while keeping your search foundations solid.

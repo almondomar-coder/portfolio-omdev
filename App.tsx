@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import WhyChooseMe from './components/WhyChooseMe';
-import Testimonials from './components/Testimonials';
-import ContactCTA from './components/ContactCTA';
 import Footer from './components/Footer';
 import AuditModal from './components/AuditModal';
 import PrismBackground from './components/PrismBackground';
 import ScrollProgress from './components/ScrollProgress';
-import SEO from './components/SEO';
+import ScrollManager from './components/ScrollManager';
+import { AuditProvider } from './context/AuditContext';
+import Home from './pages/Home';
+import VerticalPage from './pages/VerticalPage';
+import NotFound from './pages/NotFound';
 
 const App: React.FC = () => {
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
@@ -23,29 +22,32 @@ const App: React.FC = () => {
 
   return (
     <HelmetProvider>
-      <SEO />
-      <div className="min-h-screen relative text-primary">
-        <ScrollProgress />
-        <div className="fixed inset-0 z-[-1]">
-          <PrismBackground />
+      <AuditProvider value={{ openAudit }}>
+        <ScrollManager />
+        <div className="min-h-screen relative text-primary">
+          <ScrollProgress />
+          <div className="fixed inset-0 z-[-1]">
+            <PrismBackground />
+          </div>
+
+          <Navbar onOpenAudit={openAudit} />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/ai-visibility-wellness" element={<VerticalPage slug="wellness" />} />
+              <Route path="/ai-visibility-professional-services" element={<VerticalPage slug="professional-services" />} />
+              <Route path="/ai-visibility-multi-location" element={<VerticalPage slug="multi-location" />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+
+          <AuditModal
+            isOpen={isAuditModalOpen}
+            onClose={() => setIsAuditModalOpen(false)}
+          />
         </div>
-
-        <Navbar onOpenAudit={openAudit} />
-        <main>
-          <Hero onOpenAudit={openAudit} />
-          <About />
-          <Services />
-          <WhyChooseMe />
-          <Testimonials />
-          <ContactCTA />
-        </main>
-        <Footer />
-
-        <AuditModal
-          isOpen={isAuditModalOpen}
-          onClose={() => setIsAuditModalOpen(false)}
-        />
-      </div>
+      </AuditProvider>
     </HelmetProvider>
   );
 };

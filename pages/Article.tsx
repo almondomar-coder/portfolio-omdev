@@ -6,7 +6,8 @@ import SEO from '../components/SEO';
 import FAQ from '../components/FAQ';
 import { Reveal } from '../components/Reveal';
 import NotFound from './NotFound';
-import { getArticle } from '../data/articles';
+import { articles, getArticle } from '../data/articles';
+import RelatedLinks from '../components/RelatedLinks';
 import { useAudit } from '../context/AuditContext';
 
 const fmtDate = (iso: string) =>
@@ -20,6 +21,13 @@ const Article: React.FC = () => {
   if (!a) return <NotFound />;
 
   const canonical = `https://omdev.xyz/insights/${a.slug}`;
+
+  const related = [
+    ...articles
+      .filter((x) => x.slug !== a.slug)
+      .map((x) => ({ to: `/insights/${x.slug}`, title: x.title, sub: x.excerpt })),
+    { to: '/case-studies/plum-pilates', title: 'Case study: +50% for Plum Pilates', sub: 'See GEO + SEO applied to a real London business.' },
+  ];
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -136,6 +144,8 @@ const Article: React.FC = () => {
           </div>
         </div>
       </article>
+
+      <RelatedLinks links={related} />
 
       <FAQ faqs={a.faqs} heading="Frequently asked" />
 

@@ -7,6 +7,7 @@ import FAQ from '../components/FAQ';
 import { Reveal } from '../components/Reveal';
 import NotFound from './NotFound';
 import { getCaseStudy } from '../data/caseStudies';
+import RelatedLinks from '../components/RelatedLinks';
 import { useAudit } from '../context/AuditContext';
 
 const CaseStudy: React.FC = () => {
@@ -17,6 +18,12 @@ const CaseStudy: React.FC = () => {
   if (!c) return <NotFound />;
 
   const canonical = `https://omdev.xyz/case-studies/${c.slug}`;
+
+  const related = [
+    { to: '/ai-visibility-wellness', title: 'GEO + SEO for wellness & clinics', sub: 'The approach behind results like this, for studios and clinics.' },
+    { to: '/insights/how-to-get-cited-by-ai-search', title: 'How to get cited by AI search', sub: 'The practical playbook used to grow visibility.' },
+    { to: '/insights/geo-vs-seo', title: 'GEO vs SEO: what’s the difference', sub: 'Why the winning strategy combines both.' },
+  ];
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -136,6 +143,8 @@ const CaseStudy: React.FC = () => {
           )}
         </div>
       </section>
+
+      <RelatedLinks links={related} />
 
       <FAQ faqs={c.faqs} heading="Questions about this case study" />
 

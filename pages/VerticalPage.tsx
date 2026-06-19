@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import FAQ from '../components/FAQ';
 import { Reveal } from '../components/Reveal';
 import NotFound from './NotFound';
+import RelatedLinks from '../components/RelatedLinks';
 import { getVertical } from '../data/verticals';
 import { useAudit } from '../context/AuditContext';
 
@@ -21,6 +22,12 @@ const VerticalPage: React.FC<VerticalPageProps> = ({ slug }) => {
 
   const canonical = `https://omdev.xyz${v.path}`;
   const Icon = v.icon;
+
+  const related = [
+    { to: '/insights/geo-vs-seo', title: 'GEO vs SEO: what’s the difference', sub: 'Why you need both AI-answer visibility and traditional rankings.' },
+    { to: '/insights/how-to-get-cited-by-ai-search', title: 'How to get cited by AI search', sub: 'The practical levers that make AI engines cite your business.' },
+    { to: '/case-studies/plum-pilates', title: 'Case study: +50% for Plum Pilates', sub: 'How GEO + SEO grew a London studio’s visibility.' },
+  ];
 
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -137,6 +144,8 @@ const VerticalPage: React.FC<VerticalPageProps> = ({ slug }) => {
 
       {/* FAQ (with schema) */}
       <FAQ faqs={v.faqs} heading={`${v.name}: AI Search Questions`} />
+
+      <RelatedLinks links={related} />
 
       {/* CTA */}
       <section className="py-24 md:py-32 px-6 container mx-auto">

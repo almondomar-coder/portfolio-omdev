@@ -10,6 +10,9 @@ import ScrollManager from './components/ScrollManager';
 import { AuditProvider } from './context/AuditContext';
 import Home from './pages/Home';
 import VerticalPage from './pages/VerticalPage';
+import Insights from './pages/Insights';
+import Article from './pages/Article';
+import CaseStudy from './pages/CaseStudy';
 import NotFound from './pages/NotFound';
 
 const App: React.FC = () => {
@@ -37,6 +40,9 @@ const App: React.FC = () => {
               <Route path="/ai-visibility-wellness" element={<VerticalPage slug="wellness" />} />
               <Route path="/ai-visibility-professional-services" element={<VerticalPage slug="professional-services" />} />
               <Route path="/ai-visibility-multi-location" element={<VerticalPage slug="multi-location" />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/insights/:slug" element={<Article />} />
+              <Route path="/case-studies/:slug" element={<CaseStudy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

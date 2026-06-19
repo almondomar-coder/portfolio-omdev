@@ -6,6 +6,7 @@ import Services from '../components/Services';
 import Offer from '../components/Offer';
 import Verticals from '../components/Verticals';
 import WhyChooseMe from '../components/WhyChooseMe';
+import BuiltGeoFirst from '../components/BuiltGeoFirst';
 import Testimonials from '../components/Testimonials';
 import FAQ from '../components/FAQ';
 import ContactCTA from '../components/ContactCTA';
@@ -69,6 +70,25 @@ const professionalServiceSchema = {
   ],
 };
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Omar',
+  jobTitle: 'AI Search & GEO Specialist',
+  worksFor: { '@type': 'Organization', name: 'OmDev', url: 'https://omdev.xyz' },
+  url: 'https://omdev.xyz',
+  email: 'omar@omdev.xyz',
+  knowsAbout: [
+    'Generative Engine Optimisation',
+    'Answer Engine Optimisation',
+    'AI Search Optimisation',
+    'Search Engine Optimisation',
+    'Structured data',
+  ],
+  // Add your real profile URLs here to strengthen entity recognition:
+  // sameAs: ['https://www.linkedin.com/in/...', 'https://twitter.com/...']
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -82,13 +102,14 @@ const faqSchema = {
 const Home: React.FC = () => {
   return (
     <>
-      <SEO jsonLd={[professionalServiceSchema, faqSchema]} />
+      <SEO jsonLd={[professionalServiceSchema, personSchema, faqSchema]} />
       <Hero />
       <About />
       <Services />
       <Offer />
       <Verticals />
       <WhyChooseMe />
+      <BuiltGeoFirst />
       <Testimonials />
       <FAQ faqs={homeFaqs} />
       <ContactCTA />

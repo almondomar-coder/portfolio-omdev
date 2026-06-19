@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Scrolls to top on route change, or to a #hash target if present.
-const ScrollManager: React.FC = () => {
+const ScrollManager = () => {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {

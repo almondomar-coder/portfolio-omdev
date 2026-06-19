@@ -38,7 +38,8 @@ const Footer: React.FC = () => {
             <h4 className="font-bold text-[var(--color-primary)] mb-6">Explore</h4>
             <ul className="space-y-4 text-sm text-[var(--color-secondary)]">
               <li><Link to="/#offer" className="hover:text-[var(--color-primary)] transition-colors">How It Works</Link></li>
-              <li><Link to="/#services" className="hover:text-[var(--color-primary)] transition-colors">Services</Link></li>
+              <li><Link to="/insights" className="hover:text-[var(--color-primary)] transition-colors">Insights</Link></li>
+              <li><Link to="/case-studies/plum-pilates" className="hover:text-[var(--color-primary)] transition-colors">Case study</Link></li>
               <li><Link to="/#faq" className="hover:text-[var(--color-primary)] transition-colors">FAQ</Link></li>
               <li><a href="mailto:omar@omdev.xyz" className="hover:text-[var(--color-primary)] transition-colors">Contact</a></li>
             </ul>

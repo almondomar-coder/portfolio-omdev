@@ -23,6 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenAudit }) => {
     { name: 'How It Works', to: '/#offer' },
     { name: 'Who I Help', to: '/#who-i-help' },
     { name: 'Services', to: '/#services' },
+    { name: 'Insights', to: '/insights' },
     { name: 'FAQ', to: '/#faq' },
   ];
 

@@ -7,6 +7,7 @@ interface SEOProps {
     name?: string;
     type?: string;
     canonical?: string;
+    image?: string;
     jsonLd?: object | object[];
 }
 
@@ -16,6 +17,7 @@ const SEO: React.FC<SEOProps> = ({
     name = 'OmDev',
     type = 'website',
     canonical = 'https://omdev.xyz/',
+    image = 'https://omdev.xyz/og-image.png',
     jsonLd,
 }) => {
     const blocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
@@ -33,12 +35,16 @@ const SEO: React.FC<SEOProps> = ({
             <meta property='og:title' content={title} />
             <meta property='og:description' content={description} />
             <meta property='og:site_name' content={name} />
+            <meta property='og:image' content={image} />
+            <meta property='og:image:width' content='1200' />
+            <meta property='og:image:height' content='630' />
 
             {/* Twitter Card */}
             <meta name='twitter:card' content='summary_large_image' />
             <meta name='twitter:creator' content={name} />
             <meta name='twitter:title' content={title} />
             <meta name='twitter:description' content={description} />
+            <meta name='twitter:image' content={image} />
 
             {/* Structured data for AI engines & search */}
             {blocks.map((block, i) => (
